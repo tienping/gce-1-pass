@@ -430,6 +430,19 @@
                         {row: 3, col: 1}  // Messages that include an icon of a certain color -> Has blue-info
                     ],
                     type: "matching"
+                },
+                {
+                    question: "Select 4 ways how we can use search function in Gmail to locate email effectively:",
+                    options: [
+                        "Search for mails by sender or recipient",
+                        "Search for emails within a label",
+                        "Search for emails containing hyperlinks",
+                        "Search for keywords within emails",
+                        "Filter emails by words count",
+                        "Filter emails that have attachment"
+                    ],
+                    correct: [0, 1, 3, 5],
+                    type: "checkbox"
                 }
             ]
         };
@@ -712,6 +725,18 @@
             feedback.style.display = 'block';
             document.getElementById(`submit-${appName}`).style.display = 'none';
             document.getElementById(`next-${appName}`).style.display = 'block';
+
+            // Add Try Again button for incorrect answers
+            if (!isCorrect) {
+                const tryAgainBtn = document.createElement('button');
+                tryAgainBtn.className = 'next-btn try-again-btn';
+                tryAgainBtn.style.marginLeft = '10px';
+                tryAgainBtn.style.background = '#ff9800';
+                tryAgainBtn.onclick = () => retryQuestion(appName);
+                tryAgainBtn.textContent = 'Try Again';
+                document.getElementById(`next-${appName}`).parentNode.insertBefore(tryAgainBtn, document.getElementById(`next-${appName}`).nextSibling);
+            }
+
             const historyEntry = {
                 app: appName,
                 question: question.question,
@@ -842,17 +867,6 @@
                 document.getElementById(`next-${appName}`).parentNode.insertBefore(tryAgainBtn, document.getElementById(`next-${appName}`).nextSibling);
             }
 
-            // Add Try Again button for incorrect answers
-            if (!isCorrect) {
-                const tryAgainBtn = document.createElement('button');
-                tryAgainBtn.className = 'next-btn try-again-btn';
-                tryAgainBtn.style.marginLeft = '10px';
-                tryAgainBtn.style.background = '#ff9800';
-                tryAgainBtn.onclick = () => retryQuestion(appName);
-                tryAgainBtn.textContent = 'Try Again';
-                document.getElementById(`next-${appName}`).parentNode.insertBefore(tryAgainBtn, document.getElementById(`next-${appName}`).nextSibling);
-            }
-
             const historyEntry = {
                 app: appName,
                 question: question.question,
@@ -874,6 +888,12 @@
         }
 
         function retryQuestion(appName) {
+            // Remove any existing Try Again buttons
+            const existingTryAgainBtn = document.querySelector(`#${appName} .try-again-btn`);
+            if (existingTryAgainBtn) {
+                existingTryAgainBtn.remove();
+            }
+
             // Reset the current question without moving to the next one
             displayQuestion(appName);
         }
