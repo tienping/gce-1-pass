@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Workspace Quiz</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #4285f4, #34a853, #fbbc05, #ea4335);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .score-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-bottom: 2px solid #e9ecef;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .score-display {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .current-score {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #4285f4;
+        }
+
+        .last-change {
+            background: #e3f2fd;
+            padding: 10px 15px;
+            border-radius: 8px;
+            border-left: 4px solid #2196f3;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .last-change:hover {
+            background: #bbdefb;
+            transform: translateY(-2px);
+        }
+
+        .tabs {
+            display: flex;
+            background: #f8f9fa;
+            border-bottom: 2px solid #e9ecef;
+            overflow-x: auto;
+        }
+
+        .tab {
+            padding: 15px 25px;
+            background: #f8f9fa;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            font-weight: 500;
+        }
+
+        .tab:hover {
+            background: #e9ecef;
+        }
+
+        .tab.active {
+            background: #4285f4;
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+            padding: 30px;
+            min-height: 400px;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .question-container {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border-left: 5px solid #4285f4;
+        }
+
+        .question {
+            font-size: 1.2em;
+            margin-bottom: 20px;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .options {
+            display: grid;
+            gap: 10px;
+        }
+
+        .option {
+            padding: 15px;
+            background: white;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1em;
+        }
+
+        .option:hover {
+            border-color: #4285f4;
+            background: #f0f8ff;
+        }
+
+        .option.correct {
+            border-color: #4caf50;
+            background: #e8f5e8;
+        }
+
+        .option.incorrect {
+            border-color: #f44336;
+            background: #ffebee;
+        }
+
+        .feedback {
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            font-weight: 500;
+            text-align: center;
+        }
+
+        .feedback.correct {
+            background: #e8f5e8;
+            color: #2e7d32;
+            border: 2px solid #4caf50;
+        }
+
+        .feedback.incorrect {
+            background: #ffebee;
+            color: #c62828;
+            border: 2px solid #f44336;
+        }
+
+        .feedback.validation-error {
+            background: #fff3e0;
+            color: #e65100;
+            border: 2px solid #ff9800;
+        }
+
+        .next-btn {
+            background: #4285f4;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            margin-top: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .next-btn:hover {
+            background: #3367d6;
+            transform: translateY(-2px);
+        }
+
+        .history-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+        }
+
+        .history-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 24px;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .history-item {
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 5px;
+            border-left: 4px solid;
+        }
+
+        .history-correct {
+            background: #e8f5e8;
+            border-left-color: #4caf50;
+        }
+
+        .history-incorrect {
+            background: #ffebee;
+            border-left-color: #f44336;
+        }
+
+        .checkbox-option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .checkbox-option.selected {
+            background: #e3f2fd;
+            border-color: #2196f3;
+        }
+
+        .checkbox-custom {
+            font-size: 1.2em;
+            color: #666;
+        }
+
+        .matching-table {
+            margin: 20px 0;
+            overflow-x: auto;
+        }
+
+        .matching-table table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .matching-table th {
+            background: #4285f4;
+            color: white;
+            padding: 12px;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .matching-table td {
+            padding: 12px;
+            border: 1px solid #e0e0e0;
+            text-align: center;
+        }
+
+        .statement-cell {
+            background: #f5f5f5;
+            font-weight: 500;
+            text-align: left !important;
+        }
+
+        .matching-cell {
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .matching-cell:hover {
+            background: #e3f2fd;
+        }
+
+        .matching-cell.selected {
+            background: #bbdefb;
+        }
+
+        .matching-cell.correct {
+            background: #e8f5e8;
+        }
+
+        .matching-cell.incorrect {
+            background: #ffebee;
+        }
+
+        .matching-indicator {
+            font-size: 1.2em;
+            color: #666;
+        }
+
+        .matching-cell.selected .matching-indicator {
+            color: #2196f3;
+            content: "●";
+        }
+
+        .matching-cell.correct .matching-indicator {
+            color: #4caf50;
+            content: "✓";
+        }
+
+        .matching-cell.incorrect .matching-indicator {
+            color: #f44336;
+            content: "✗";
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎓 Google Workspace Quiz</h1>
+            <p>Test your knowledge of Google Workspace applications!</p>
+        </div>
+
+        <div class="score-section">
+            <div class="score-display">
+                <div class="current-score">
+                    📊 Score: <span id="score">0</span>
+                </div>
+                <div class="last-change" onclick="showHistory()">
+                    📈 Last Change: <span id="lastChange">No changes yet</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="tabs">
+            <button class="tab active" onclick="showTab('calendar')">📅 Calendar</button>
+            <button class="tab" onclick="showTab('chrome')">🌐 Chrome</button>
+            <button class="tab" onclick="showTab('classroom')">🎓 Classroom</button>
+            <button class="tab" onclick="showTab('docs')">📄 Docs</button>
+            <button class="tab" onclick="showTab('drive')">💾 Drive</button>
+            <button class="tab" onclick="showTab('drawing')">🎨 Drawing</button>
+            <button class="tab" onclick="showTab('forms')">📝 Forms</button>
+            <button class="tab" onclick="showTab('gmail')">📧 Gmail</button>
+            <button class="tab" onclick="showTab('groups')">👥 Groups</button>
+            <button class="tab" onclick="showTab('meet')">🎥 Meet</button>
+            <button class="tab" onclick="showTab('sheets')">📊 Sheets</button>
+            <button class="tab" onclick="showTab('sites')">🌐 Sites</button>
+            <button class="tab" onclick="showTab('slides')">📽️ Slides</button>
+            <button class="tab" onclick="showTab('youtube')">📺 YouTube</button>
+        </div>
+
+        <div id="calendar" class="tab-content active"></div>
+        <div id="chrome" class="tab-content"></div>
+        <div id="classroom" class="tab-content"></div>
+        <div id="docs" class="tab-content"></div>
+        <div id="drive" class="tab-content"></div>
+        <div id="drawing" class="tab-content"></div>
+        <div id="forms" class="tab-content"></div>
+        <div id="gmail" class="tab-content"></div>
+        <div id="groups" class="tab-content"></div>
+        <div id="meet" class="tab-content"></div>
+        <div id="sheets" class="tab-content"></div>
+        <div id="sites" class="tab-content"></div>
+        <div id="slides" class="tab-content"></div>
+        <div id="youtube" class="tab-content"></div>
+    </div>
+
+    <div id="historyModal" class="history-modal">
+        <div class="history-content">
+            <span class="close-btn" onclick="hideHistory()">&times;</span>
+            <h2>📊 Score History</h2>
+            <div id="historyList"></div>
+        </div>
+    </div>
+
+    <script>
+        let currentScore = 0;
+        let scoreHistory = [];
+        let currentQuestions = {};
+        let currentQuestionIndex = {};
+        let currentShuffleMap = {};
+
+        const quizData = {
+            calendar: [
+                {
+                    question: "Select 3 ways how you can create Google Calendar events.",
+                    options: ["Click the create button", "Double click on the mini calendar", "Create an event from a Gmail message", "Click an empty time on your calendar", "Right click over an empty time on your calendar"],
+                    correct: [0, 3, 4],
+                    type: "checkbox"
+                }
+            ],
+            gmail: [
+                {
+                    question: "In Gmail you can use labels and stars to stay organized. To easily find emails, you can use search operators to filter your Gmail search results. Match the search operator to its search criteria below.",
+                    options: ["Messages that have a Google Doc", "Specify the sender", "Messages that have a certain label", "Messages that include an icon of a certain color"],
+                    criteria: ["", "Has blue-info", "Has Document", "From: name@google.com", "Label: professional development"],
+                    correct: [
+                        {row: 0, col: 2}, // Messages that have a Google Doc -> Has Document
+                        {row: 1, col: 3}, // Specify the sender -> From: name@google.com
+                        {row: 2, col: 4}, // Messages that have a certain label -> Label: professional development
+                        {row: 3, col: 1}  // Messages that include an icon of a certain color -> Has blue-info
+                    ],
+                    type: "matching"
+                }
+            ]
+        };
+
+        const encouragementMessages = [
+            "🎉 Excellent work! You're mastering Google Workspace!",
+            "🌟 Fantastic! Your knowledge is impressive!",
+            "💪 Outstanding! You're on fire today!",
+            "🚀 Amazing! You're becoming a Google Workspace expert!",
+            "⭐ Brilliant! Keep up the great work!",
+            "🏆 Perfect! You're unstoppable!",
+            "🎯 Outstanding! Your skills are sharp!",
+            "🔥 Incredible! You're learning fast!"
+        ];
+
+        const motivationMessages = [
+            "💪 Don't worry! Every mistake is a learning opportunity!",
+            "🌟 Keep trying! You're getting closer to the answer!",
+            "🎯 You're doing great! Let's learn from this!",
+            "🚀 Don't give up! Success comes with practice!",
+            "⭐ You've got this! Try again with confidence!",
+            "🏆 Learning takes time! You're on the right track!",
+            "🎉 Mistakes help us grow! Keep going!",
+            "🔥 You're building knowledge! Stay positive!"
+        ];
+
+        function showTab(tabName) {
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabContents.forEach(content => content.classList.remove('active'));
+
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(tab => tab.classList.remove('active'));
+
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+
+            loadQuestions(tabName);
+        }
+
+        function loadQuestions(appName) {
+            const questions = quizData[appName];
+            if (!questions) return;
+
+            const shuffledQuestions = [...questions].sort(() => Math.random() - 0.5);
+            currentQuestions[appName] = shuffledQuestions;
+            currentQuestionIndex[appName] = 0;
+
+            displayQuestion(appName);
+        }
+
+                function displayQuestion(appName) {
+            const questions = currentQuestions[appName];
+            const currentIndex = currentQuestionIndex[appName];
+
+            if (!questions || currentIndex >= questions.length) {
+                document.getElementById(appName).innerHTML = `
+                    <div class="question-container">
+                        <h2>🎉 Quiz Complete!</h2>
+                        <p>You've completed all questions for ${appName.charAt(0).toUpperCase() + appName.slice(1)}.</p>
+                        <p>Your current score: <strong>${currentScore}</strong></p>
+                        <button class="next-btn" onclick="loadQuestions('${appName}')">Try Again</button>
+                    </div>
+                `;
+                return;
+            }
+
+            const question = questions[currentIndex];
+            // Shuffle options and keep track of mapping
+            const optionIndices = question.options.map((_, i) => i);
+            const shuffledIndices = optionIndices.slice().sort(() => Math.random() - 0.5);
+            currentShuffleMap[appName] = shuffledIndices;
+            const shuffledOptions = shuffledIndices.map(i => question.options[i]);
+
+            if (question.type === "checkbox") {
+                document.getElementById(appName).innerHTML = `
+                    <div class="question-container">
+                        <div class="question">${question.question}</div>
+                        <div class="options">
+                            ${shuffledOptions.map((option, index) => `
+                                <div class="option checkbox-option" onclick="toggleCheckbox('${appName}', ${index}, '${option}')" data-index="${index}">
+                                    <input type="checkbox" id="checkbox-${appName}-${index}" style="display: none;">
+                                    <span class="checkbox-custom">☐</span> ${option}
+                                </div>
+                            `).join('')}
+                        </div>
+                        <button id="submit-${appName}" class="next-btn" onclick="submitCheckboxAnswer('${appName}')" style="margin-top: 15px;">
+                            Submit Answer
+                        </button>
+                        <div id="feedback-${appName}" class="feedback" style="display: none;"></div>
+                        <button id="next-${appName}" class="next-btn" onclick="nextQuestion('${appName}')" style="display: none;">
+                            Next Question
+                        </button>
+                    </div>
+                `;
+            } else if (question.type === "matching") {
+                document.getElementById(appName).innerHTML = `
+                    <div class="question-container">
+                        <div class="question">${question.question}</div>
+                        <div class="matching-table">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        ${question.criteria.map((criterion, colIndex) =>
+                                            `<th>${criterion}</th>`
+                                        ).join('')}
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    ${question.options.map((statement, rowIndex) =>
+                                        `<tr>
+                                            <td class="statement-cell">${statement}</td>
+                                            ${question.criteria.slice(1).map((criterion, colIndex) =>
+                                                `<td class="matching-cell" onclick="toggleMatching('${appName}', ${rowIndex}, ${colIndex + 1})" data-row="${rowIndex}" data-col="${colIndex + 1}">
+                                                    <span class="matching-indicator">○</span>
+                                                </td>`
+                                            ).join('')}
+                                        </tr>`
+                                    ).join('')}
+                                </tbody>
+                            </table>
+                        </div>
+                        <button id="submit-${appName}" class="next-btn" onclick="submitMatchingAnswer('${appName}')" style="margin-top: 15px;">
+                            Submit Answer
+                        </button>
+                        <div id="feedback-${appName}" class="feedback" style="display: none;"></div>
+                        <button id="next-${appName}" class="next-btn" onclick="nextQuestion('${appName}')" style="display: none;">
+                            Next Question
+                        </button>
+                    </div>
+                `;
+                        } else {
+                // Default single choice question
+                document.getElementById(appName).innerHTML = `
+                    <div class="question-container">
+                        <div class="question">${question.question}</div>
+                        <div class="options">
+                            ${shuffledOptions.map((option, index) => `
+                                <div class="option" onclick="selectOption('${appName}', ${index}, '${option}')">
+                                    ${option}
+                                </div>
+                            `).join('')}
+                        </div>
+                        <div id="feedback-${appName}" class="feedback" style="display: none;"></div>
+                        <button id="next-${appName}" class="next-btn" onclick="nextQuestion('${appName}')" style="display: none;">
+                            Next Question
+                        </button>
+                    </div>
+                `;
+            }
+        }
+
+                function selectOption(appName, selectedIndex, selectedOption) {
+            const questions = currentQuestions[appName];
+            const currentIndex = currentQuestionIndex[appName];
+            const question = questions[currentIndex];
+
+            const options = document.querySelectorAll(`#${appName} .option`);
+            const correctAnswer = question.options[question.correct];
+
+            let isCorrect = false;
+            options.forEach((option, index) => {
+                if (option.textContent.trim() === correctAnswer) {
+                    if (index === selectedIndex) {
+                        isCorrect = true;
+                    }
+                    option.classList.add('correct');
+                } else if (index === selectedIndex) {
+                    option.classList.add('incorrect');
+                }
+                option.style.pointerEvents = 'none';
+            });
+
+            const scoreChange = isCorrect ? 1 : -2;
+            currentScore += scoreChange;
+            document.getElementById('score').textContent = currentScore;
+
+            const feedback = document.getElementById(`feedback-${appName}`);
+            if (isCorrect) {
+                const message = encouragementMessages[Math.floor(Math.random() * encouragementMessages.length)];
+                feedback.textContent = `✅ Correct! ${message}`;
+                feedback.className = 'feedback correct';
+            } else {
+                const message = motivationMessages[Math.floor(Math.random() * motivationMessages.length)];
+                feedback.textContent = `❌ Incorrect. The correct answer is: ${correctAnswer}. ${message}`;
+                feedback.className = 'feedback incorrect';
+            }
+            feedback.style.display = 'block';
+
+            document.getElementById(`next-${appName}`).style.display = 'block';
+
+            const historyEntry = {
+                app: appName,
+                question: question.question,
+                userAnswer: selectedOption,
+                correctAnswer: correctAnswer,
+                isCorrect: isCorrect,
+                scoreChange: scoreChange,
+                timestamp: new Date().toLocaleString()
+            };
+            scoreHistory.push(historyEntry);
+
+            const changeText = isCorrect ? `+1 (Correct)` : `-2 (Incorrect)`;
+            document.getElementById('lastChange').textContent = changeText;
+        }
+
+        function toggleCheckbox(appName, index, option) {
+            const checkboxOption = document.querySelector(`#${appName} .checkbox-option[data-index="${index}"]`);
+            const checkboxCustom = checkboxOption.querySelector('.checkbox-custom');
+
+            if (checkboxCustom.textContent === '☐') {
+                checkboxCustom.textContent = '☑';
+                checkboxOption.classList.add('selected');
+            } else {
+                checkboxCustom.textContent = '☐';
+                checkboxOption.classList.remove('selected');
+            }
+        }
+
+        function submitCheckboxAnswer(appName) {
+            const questions = currentQuestions[appName];
+            const currentIndex = currentQuestionIndex[appName];
+            const question = questions[currentIndex];
+            const selectedOptions = document.querySelectorAll(`#${appName} .checkbox-option.selected`);
+            const selectedIndices = Array.from(selectedOptions).map(option => parseInt(option.getAttribute('data-index')));
+            // Map selected shuffled indices back to original indices
+            const shuffleMap = currentShuffleMap[appName];
+            const selectedOriginalIndices = selectedIndices.map(i => shuffleMap[i]);
+            // Validation: Check if user selected the correct number of answers
+            if (selectedOriginalIndices.length !== question.correct.length) {
+                const feedback = document.getElementById(`feedback-${appName}`);
+                const requiredCount = question.correct.length;
+                const selectedCount = selectedOriginalIndices.length;
+                if (selectedCount === 0) {
+                    feedback.textContent = `⚠️ Please select ${requiredCount} answer(s) before submitting.`;
+                } else if (selectedCount < requiredCount) {
+                    feedback.textContent = `⚠️ You selected ${selectedCount} answer(s). Please select ${requiredCount - selectedCount} more answer(s).`;
+                } else {
+                    feedback.textContent = `⚠️ You selected ${selectedCount} answer(s). Please deselect ${selectedCount - requiredCount} answer(s) to have exactly ${requiredCount} selection(s).`;
+                }
+                feedback.className = 'feedback validation-error';
+                feedback.style.display = 'block';
+                setTimeout(() => {
+                    feedback.style.display = 'none';
+                }, 3000);
+                return; // Don't proceed with answer checking
+            }
+            // Check if all correct answers are selected and no incorrect ones
+            const isCorrect = question.correct.length === selectedOriginalIndices.length &&
+                question.correct.every(correctIndex => selectedOriginalIndices.includes(correctIndex));
+            // Show correct answers
+            const allOptions = document.querySelectorAll(`#${appName} .checkbox-option`);
+            allOptions.forEach((option, index) => {
+                const checkboxCustom = option.querySelector('.checkbox-custom');
+                const originalIndex = shuffleMap[index];
+                if (question.correct.includes(originalIndex)) {
+                    option.classList.add('correct');
+                    checkboxCustom.textContent = '☑';
+                    checkboxCustom.style.color = '#4caf50';
+                } else if (selectedOriginalIndices.includes(originalIndex)) {
+                    option.classList.add('incorrect');
+                    checkboxCustom.textContent = '☒';
+                    checkboxCustom.style.color = '#f44336';
+                }
+                option.style.pointerEvents = 'none';
+            });
+            const scoreChange = isCorrect ? 1 : -2;
+            currentScore += scoreChange;
+            document.getElementById('score').textContent = currentScore;
+            const feedback = document.getElementById(`feedback-${appName}`);
+            if (isCorrect) {
+                const message = encouragementMessages[Math.floor(Math.random() * encouragementMessages.length)];
+                feedback.textContent = `✅ Correct! ${message}`;
+                feedback.className = 'feedback correct';
+            } else {
+                const message = motivationMessages[Math.floor(Math.random() * motivationMessages.length)];
+                const correctAnswers = question.correct.map(index => question.options[index]).join(', ');
+                feedback.textContent = `❌ Incorrect. The correct answers are: ${correctAnswers}. ${message}`;
+                feedback.className = 'feedback incorrect';
+            }
+            feedback.style.display = 'block';
+            document.getElementById(`submit-${appName}`).style.display = 'none';
+            document.getElementById(`next-${appName}`).style.display = 'block';
+            const historyEntry = {
+                app: appName,
+                question: question.question,
+                userAnswer: selectedOriginalIndices.map(index => question.options[index]).join(', '),
+                correctAnswer: question.correct.map(index => question.options[index]).join(', '),
+                isCorrect: isCorrect,
+                scoreChange: scoreChange,
+                timestamp: new Date().toLocaleString()
+            };
+            scoreHistory.push(historyEntry);
+            const changeText = isCorrect ? `+1 (Correct)` : `-2 (Incorrect)`;
+            document.getElementById('lastChange').textContent = changeText;
+        }
+
+        function toggleMatching(appName, row, col) {
+            const cell = document.querySelector(`#${appName} .matching-cell[data-row="${row}"][data-col="${col}"]`);
+            const indicator = cell.querySelector('.matching-indicator');
+
+            // Clear all selections in the same row and column
+            const allCells = document.querySelectorAll(`#${appName} .matching-cell`);
+            allCells.forEach(c => {
+                if (c.getAttribute('data-row') == row || c.getAttribute('data-col') == col) {
+                    c.classList.remove('selected');
+                    c.querySelector('.matching-indicator').textContent = '○';
+                }
+            });
+
+            // Toggle current cell
+            if (cell.classList.contains('selected')) {
+                cell.classList.remove('selected');
+                indicator.textContent = '○';
+            } else {
+                cell.classList.add('selected');
+                indicator.textContent = '●';
+            }
+        }
+
+        function submitMatchingAnswer(appName) {
+            const questions = currentQuestions[appName];
+            const currentIndex = currentQuestionIndex[appName];
+            const question = questions[currentIndex];
+
+            const selectedCells = document.querySelectorAll(`#${appName} .matching-cell.selected`);
+            const userSelections = Array.from(selectedCells).map(cell => ({
+                row: parseInt(cell.getAttribute('data-row')),
+                col: parseInt(cell.getAttribute('data-col'))
+            }));
+
+            // Validation: Check if user selected the correct number of matches
+            if (userSelections.length !== question.correct.length) {
+                const feedback = document.getElementById(`feedback-${appName}`);
+                const requiredCount = question.correct.length;
+                const selectedCount = userSelections.length;
+
+                if (selectedCount === 0) {
+                    feedback.textContent = `⚠️ Please select ${requiredCount} match(es) before submitting.`;
+                } else if (selectedCount < requiredCount) {
+                    feedback.textContent = `⚠️ You selected ${selectedCount} match(es). Please select ${requiredCount - selectedCount} more match(es).`;
+                } else {
+                    feedback.textContent = `⚠️ You selected ${selectedCount} match(es). Please deselect ${selectedCount - requiredCount} match(es) to have exactly ${requiredCount} selection(s).`;
+                }
+
+                feedback.className = 'feedback validation-error';
+                feedback.style.display = 'block';
+
+                setTimeout(() => {
+                    feedback.style.display = 'none';
+                }, 3000);
+
+                return;
+            }
+
+            // Check if all matches are correct
+            const isCorrect = question.correct.length === userSelections.length &&
+                             question.correct.every(correctMatch =>
+                                 userSelections.some(userMatch =>
+                                     userMatch.row === correctMatch.row && userMatch.col === correctMatch.col
+                                 )
+                             );
+
+            // Show correct answers
+            const allCells = document.querySelectorAll(`#${appName} .matching-cell`);
+            allCells.forEach(cell => {
+                const row = parseInt(cell.getAttribute('data-row'));
+                const col = parseInt(cell.getAttribute('data-col'));
+                const indicator = cell.querySelector('.matching-indicator');
+
+                const isCorrectMatch = question.correct.some(match => match.row === row && match.col === col);
+                const isUserSelection = userSelections.some(selection => selection.row === row && selection.col === col);
+
+                if (isCorrectMatch) {
+                    cell.classList.add('correct');
+                    indicator.textContent = '✓';
+                } else if (isUserSelection) {
+                    cell.classList.add('incorrect');
+                    indicator.textContent = '✗';
+                }
+                cell.style.pointerEvents = 'none';
+            });
+
+            const scoreChange = isCorrect ? 1 : -2;
+            currentScore += scoreChange;
+            document.getElementById('score').textContent = currentScore;
+
+            const feedback = document.getElementById(`feedback-${appName}`);
+            if (isCorrect) {
+                const message = encouragementMessages[Math.floor(Math.random() * encouragementMessages.length)];
+                feedback.textContent = `✅ Correct! ${message}`;
+                feedback.className = 'feedback correct';
+            } else {
+                const message = motivationMessages[Math.floor(Math.random() * motivationMessages.length)];
+                feedback.textContent = `❌ Incorrect. ${message}`;
+                feedback.className = 'feedback incorrect';
+            }
+                        feedback.style.display = 'block';
+
+            document.getElementById(`submit-${appName}`).style.display = 'none';
+            document.getElementById(`next-${appName}`).style.display = 'block';
+
+            // Add Try Again button for incorrect answers
+            if (!isCorrect) {
+                const tryAgainBtn = document.createElement('button');
+                tryAgainBtn.className = 'next-btn try-again-btn';
+                tryAgainBtn.style.marginLeft = '10px';
+                tryAgainBtn.style.background = '#ff9800';
+                tryAgainBtn.onclick = () => retryQuestion(appName);
+                tryAgainBtn.textContent = 'Try Again';
+                document.getElementById(`next-${appName}`).parentNode.insertBefore(tryAgainBtn, document.getElementById(`next-${appName}`).nextSibling);
+            }
+
+            // Add Try Again button for incorrect answers
+            if (!isCorrect) {
+                const tryAgainBtn = document.createElement('button');
+                tryAgainBtn.className = 'next-btn try-again-btn';
+                tryAgainBtn.style.marginLeft = '10px';
+                tryAgainBtn.style.background = '#ff9800';
+                tryAgainBtn.onclick = () => retryQuestion(appName);
+                tryAgainBtn.textContent = 'Try Again';
+                document.getElementById(`next-${appName}`).parentNode.insertBefore(tryAgainBtn, document.getElementById(`next-${appName}`).nextSibling);
+            }
+
+            const historyEntry = {
+                app: appName,
+                question: question.question,
+                userAnswer: userSelections.map(s => `${question.options[s.row]} → ${question.criteria[s.col]}`).join(', '),
+                correctAnswer: question.correct.map(c => `${question.options[c.row]} → ${question.criteria[c.col]}`).join(', '),
+                isCorrect: isCorrect,
+                scoreChange: scoreChange,
+                timestamp: new Date().toLocaleString()
+            };
+            scoreHistory.push(historyEntry);
+
+            const changeText = isCorrect ? `+1 (Correct)` : `-2 (Incorrect)`;
+            document.getElementById('lastChange').textContent = changeText;
+        }
+
+        function nextQuestion(appName) {
+            currentQuestionIndex[appName]++;
+            displayQuestion(appName);
+        }
+
+        function retryQuestion(appName) {
+            // Reset the current question without moving to the next one
+            displayQuestion(appName);
+        }
+
+        function showHistory() {
+            const modal = document.getElementById('historyModal');
+            const historyList = document.getElementById('historyList');
+
+            if (scoreHistory.length === 0) {
+                historyList.innerHTML = '<p>No history yet. Start answering questions to see your progress!</p>';
+            } else {
+                historyList.innerHTML = scoreHistory.map(entry => `
+                    <div class="history-item ${entry.isCorrect ? 'history-correct' : 'history-incorrect'}">
+                        <strong>${entry.app.toUpperCase()}</strong> - ${entry.timestamp}<br>
+                        <strong>Question:</strong> ${entry.question}<br>
+                        <strong>Your Answer:</strong> ${entry.userAnswer}<br>
+                        <strong>Correct Answer:</strong> ${entry.correctAnswer}<br>
+                        <strong>Score Change:</strong> ${entry.scoreChange > 0 ? '+' : ''}${entry.scoreChange}
+                    </div>
+                `).join('');
+            }
+
+            modal.style.display = 'block';
+        }
+
+        function hideHistory() {
+            document.getElementById('historyModal').style.display = 'none';
+        }
+
+        window.onclick = function(event) {
+            const modal = document.getElementById('historyModal');
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        }
+
+        window.onload = function() {
+            loadQuestions('calendar');
+        };
+    </script>
+</body>
+</html>
