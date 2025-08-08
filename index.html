@@ -1069,7 +1069,10 @@
             }
         }
 
-        window.onload = function() {
+                window.onload = function() {
+            // Hide tabs that don't have questions
+            hideEmptyTabs();
+
             // Check for tab parameter in URL
             const urlParams = new URLSearchParams(window.location.search);
             const tabParam = urlParams.get('tab');
@@ -1078,10 +1081,36 @@
                 // Show the tab from URL parameter
                 showTabFromParam(tabParam);
             } else {
-                // Default to calendar tab
-                loadQuestions('calendar');
+                // Default to first available tab
+                const firstAvailableTab = getFirstAvailableTab();
+                if (firstAvailableTab) {
+                    showTabFromParam(firstAvailableTab);
+                }
             }
         };
+
+        function hideEmptyTabs() {
+            const tabButtons = document.querySelectorAll('.tab');
+            tabButtons.forEach(tabButton => {
+                const tabName = tabButton.getAttribute('onclick').match(/showTab\('([^']+)'\)/)[1];
+                if (!quizData[tabName] || quizData[tabName].length === 0) {
+                    tabButton.style.display = 'none';
+                }
+            });
+        }
+
+        function getFirstAvailableTab() {
+            const tabButtons = document.querySelectorAll('.tab');
+            for (let tabButton of tabButtons) {
+                if (tabButton.style.display !== 'none') {
+                    const tabName = tabButton.getAttribute('onclick').match(/showTab\('([^']+)'\)/)[1];
+                    if (quizData[tabName] && quizData[tabName].length > 0) {
+                        return tabName;
+                    }
+                }
+            }
+            return null;
+        }
 
         function showTabFromParam(tabName) {
             const tabContents = document.querySelectorAll('.tab-content');
