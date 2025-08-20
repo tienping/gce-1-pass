@@ -252,7 +252,7 @@
         }
 
         .checkbox-option {
-            display: flex;
+            /* display: flex; */
             align-items: center;
             gap: 10px;
         }
@@ -520,8 +520,229 @@
                     ],
                     correct: [0, 1, 3, 5],
                     type: "checkbox"
+                },
+            ],
+            drive: [
+                {
+                    question: "Select 2 ways how can Google Drive help you to reduce the amount of printing undertaken in class",
+                    answer_question: "Select 2 ways how can Google Drive help you to <span class=\"highlight-keyword\">reduce the amount of printing</span> undertaken in class",
+                    options: [
+                        "Google Drive can be configured so that printing files in class is password protected",
+                        "All class print requests can be rerouted in Google Drive to the school office",
+                        "Files in Google Drive can be shared with a simple link in an email. No need to print a copy for someone in class",
+                        "Google Drive can automatically reformat documents for printing to save on paper",
+                        "Google Drive makes files easily accessible from anywhere, so there is less need to print and carry documents into class."
+                    ],
+                    answer_options: [
+                        "Google Drive can be configured so that printing files in class is password protected",
+                        "All class print requests can be rerouted in Google Drive to the school office",
+                        "Files in Google Drive can be shared with a simple link in an email. <span class=\"highlight-keyword\">No need to print a copy</span> for someone in class",
+                        "Google Drive can automatically reformat documents for printing to save on paper",
+                        "Google Drive makes files easily accessible from anywhere, so there is <span class=\"highlight-keyword\">less need to print</span> and carry documents into class."
+                    ],
+                    correct: [2, 4],
+                    type: "checkbox"
+                },
+                {
+                    question: "I can customise the colour of folders in Google Drive, folders in shared drive and shortcut to folder.",
+                    answer_question: "I can customise the <span class=\"highlight-keyword\">colour of folders</span> in Google Drive, folders in shared drive and shortcut to folder.",
+                    options: [
+                        "TRUE",
+                        "FALSE"
+                    ],
+                    correct: 0,
+                    type: "single"
+                },
+                {
+                    question: "Search operators can be used to find files in Google Drive. Match the search operator to the results:",
+                    answer_question: "Search <span class=\"highlight-keyword\">operators</span> can be used to find files in Google Drive. Match the search operator to the results:",
+                    options: [
+                        "Will display the files that you have shared with the specific email address",
+                        "Will display files shared with you by the specified email address",
+                        "Will display files owned by the specified email address",
+                        "Will display files that specified email address owner owns or has permission to view, comment or edit"
+                    ],
+                    criteria: [
+                        "",
+                        "To:",
+                        "From:",
+                        "Owner:",
+                        "Shared with:"
+                    ],
+                    answer_options: [
+                        "Will display the files that <span class=\"highlight-keyword\">you have shared with</span> the specific email address",
+                        "Will display files <span class=\"highlight-keyword\">shared with you</span> by the specified email address",
+                        "Will display files <span class=\"highlight-keyword\">owned by</span> the specified email address",
+                        "Will display files that specified email address <span class=\"highlight-keyword\">owner owns</span> or <span class=\"highlight-keyword\">has permission to view, comment or edit</span>"
+                    ],
+                    answer_criteria: [
+                        "",
+                        "<span class=\"highlight-keyword\">To:</span>",
+                        "<span class=\"highlight-keyword\">From:</span>",
+                        "<span class=\"highlight-keyword\">Owner:</span>",
+                        "<span class=\"highlight-keyword\">Shared with:</span>"
+                    ],
+                    correct: [
+                        {row: 0, col: 1},
+                        {row: 1, col: 2},
+                        {row: 2, col: 3},
+                        {row: 3, col: 4}
+                    ],
+                    type: "matching"
+                },
+                {
+                    question: "To organize files in Drive, you can create folders to make files easier to find and share with others. Select all the ways that u can organize files into folders. (Select 3)",
+                    answer_question: "To <span class=\"highlight-keyword\">organize files</span> in Drive, you can create folders to make files easier to find and share with others. Select all the ways that u can organize files into folders. (Select 3)",
+                    options: [
+                        "In Drive, right-click the item you want to move. Click Save to. Choose or create a folder, then click Save",
+                        "In Drive, right-click the item want to move. Click Move to. Choose or create a folder, then click Move",
+                        "In Drive, click the item you want to move. Drag the item over the folder and release it.",
+                        "Right-click the file you want to make a shortcut for. Click Add shortcut to Drive. Choose the folder you want the shortcut to be in. Click Add shortcut"
+                    ],
+                    answer_options: [
+                        "In Drive, right-click the item you want to move. Click Save to. Choose or create a folder, then click Save",
+                        "In Drive, right-click the item want to move. Click <span class=\"highlight-keyword\">Move</span> to. Choose or create a folder, then click Move",
+                        "In Drive, click the item you want to move. <span class=\"highlight-keyword\">Drag</span> the item over the folder and release it.",
+                        "Right-click the file you want to make a <span class=\"highlight-keyword\">shortcut</span> for. Click Add shortcut to Drive. Choose the folder you want the shortcut to be in. Click Add shortcut"
+                    ],
+                    correct: [1, 2, 3],
+                    type: "checkbox"
                 }
-            ]
+            ],
+            meet: [
+                {
+                    question: "You need to speak with teachers and parents to discuss a remote school event you are hosting at short notice. Match the feature of Google Meet with its benefit.",
+                    answer_question: "You need to speak with teachers and parents to discuss a remote school event you are hosting at short notice. Match the <span class=\"highlight-keyword\">feature</span> of Google Meet with its <span class=\"highlight-keyword\">benefit</span>.",
+                    options: [
+                        "People can join the meeting even when mobile",
+                        "Participants can communicate by text without disrupting the meeting",
+                        "Meet details are simple added when creating a meeting",
+                        "Meeting can be extended to schools, staff, and external participants",
+                        "Any participants can share their computer screen with the group"
+                    ],
+                    answer_options: [
+                        "People can join the meeting even when <span class=\"highlight-keyword\">mobile</span>",
+                        "Participants can <span class=\"highlight-keyword\">communicate by text</span> without disrupting the meeting",
+                        "<span class=\"highlight-keyword\">Meet details</span> are simple added when creating a meeting",
+                        "Meeting can be <span class=\"highlight-keyword\">extended</span> to schools, staff, and <span class=\"highlight-keyword\">external participants</span>",
+                        "Any participants can <span class=\"highlight-keyword\">share</span> their computer <span class=\"highlight-keyword\">screen</span> with the group"
+                    ],
+                    criteria: [
+                        "",
+                        "Video Calling",
+                        "Chat",
+                        "Screen Share",
+                        "Android and iOS APP",
+                        "Calendar Integration"
+                    ],
+                    answer_criteria: [
+                        "",
+                        "<span class=\"highlight-keyword\">Video Calling</span>",
+                        "<span class=\"highlight-keyword\">Chat</span>",
+                        "<span class=\"highlight-keyword\">Screen Share</span>",
+                        "<span class=\"highlight-keyword\">Android and iOS APP</span>",
+                        "<span class=\"highlight-keyword\">Calendar Integration</span>"
+                    ],
+                    correct: [
+                        {row: 0, col: 4},
+                        {row: 1, col: 2},
+                        {row: 2, col: 5},
+                        {row: 3, col: 1},
+                        {row: 4, col: 3}
+                    ],
+                    type: "matching"
+                },
+                {
+                    question: "When using Google Meet, you can: (Select 3)",
+                    answer_question: "When using Google Meet, you can: (Select 3)",
+                    options: [
+                        "Pin the presentation so that it appears larger on the screen",
+                        "Edit the presentation content from the meeting window",
+                        "Mute the audio in the presentation from Meet",
+                        "Present to select individuals only",
+                        "Unpin the presentation to view it as a tile so you can see more students"
+                    ],
+                    answer_options: [
+                        "<span class=\"highlight-keyword\">Pin the presentation</span> so that it appears larger on the screen",
+                        "Edit the presentation content from the meeting window",
+                        "<span class=\"highlight-keyword\">Mute the audio</span> in the presentation from Meet",
+                        "Present to select individuals only",
+                        "<span class=\"highlight-keyword\">Unpin the presentation</span> to view it as a tile so you can see more students"
+                    ],
+                    correct: [0, 2, 4],
+                    type: "checkbox"
+                },
+                {
+                    question: "Which of the following is NOT a control in Google Meet?",
+                    answer_question: "Which of the following is <span class=\"highlight-keyword\">NOT a control</span> in Google Meet?",
+                    options: [
+                        "Drive",
+                        "Captions",
+                        "Microphone",
+                        "Hand raise",
+                        "Camera",
+                        "Presentation controls"
+                    ],
+                    correct: 0,
+                    type: "single"
+                },
+                {
+                    question: "We can share our content in Google Meet directly from Docs, Sheets and Slides.",
+                    answer_question: "We can <span class=\"highlight-keyword\">share our content</span> in Google Meet <span class=\"highlight-keyword\">directly from Docs, Sheets and Slides.</span>",
+                    options: [
+                        "TRUE",
+                        "FALSE"
+                    ],
+                    correct: 0,
+                    type: "single"
+                },
+                {
+                    question: "Which of the following is a true statement about Google Meet: (Select 1)",
+                    answer_question: "Which of the following is a <span class=\"highlight-keyword\">true statement</span> about Google Meet: (Select 1)",
+                    options: [
+                        "Meeting hosts and co-hosts are the only users in a meeting who can use the “mute all” feature.",
+                        "Meeting hosts are the only users in a meeting who can use the “mute all” feature.",
+                        "At this time, there is no “mute all” feature.",
+                        "Only users can mute themselves."
+                    ],
+                    answer_options: [
+                        "Meeting <span class=\"highlight-keyword\">hosts and co-hosts</span> are the only users in a meeting who can use the “<span class=\"highlight-keyword\">mute all</span>” feature.",
+                        "Meeting hosts are the only users in a meeting who can use the “mute all” feature.",
+                        "At this time, there is no “mute all” feature.",
+                        "Only users can mute themselves."
+                    ],
+                    correct: [0],
+                    type: "checkbox"
+                },
+                {
+                    question: "Google Meet is available in Google Classroom. What are some of the features available? (Select 2)",
+                    answer_question: "Google Meet is available in Google Classroom. What are some of the <span class=\"highlight-keyword\">features</span> available? (Select 2)",
+                    options: [
+                        "Guests not on the class roster cannot join meetings at this time.",
+                        "Guests not on the class roster will have to “ask to join” and be admitted by teacher before they can participants, so no unintended participants join the meetings.",
+                        "Students on the class roster may enter the meeting room at any time via the class Meet link.",
+                        "Students will be directed to a waiting room until a teacher has officially joined the class Meet link."
+                    ],
+                    answer_options: [
+                        "Guests not on the class roster cannot join meetings at this time.",
+                        "Guests not on the class roster will have to “<span class=\"highlight-keyword\">ask to join</span>” and be admitted by teacher before they can participants, so no unintended participants join the meetings.",
+                        "Students on the class roster may enter the meeting room at any time via the class Meet link.",
+                        "<span class=\"highlight-keyword\">Students</span> will be <span class=\"highlight-keyword\">directed to a waiting room</span> until a teacher has officially joined the class Meet link."
+                    ],
+                    correct: [1, 3],
+                    type: "checkbox"
+                },
+                {
+                    question: "In Google Classroom, all designated co-teachers for a class will be co-hosts in the Google Meet meeting. This will enable co-hosts to start the meeting with the same Meet link without the class teacher needing to be present.",
+                    answer_question: "In Google Classroom, all designated <span class=\"highlight-keyword\">co-teachers</span> for a class will be <span class=\"highlight-keyword\">co-hosts</span> in the Google Meet meeting. This will <span class=\"highlight-keyword\">enable co-hosts to start the meeting</span> with the same Meet link <span class=\"highlight-keyword\">without the class teacher</span> needing to be present.",
+                    options: [
+                        "TRUE",
+                        "FALSE"
+                    ],
+                    correct: 0,
+                    type: "single"
+                },
+            ],
         };
 
         const encouragementMessages = [
@@ -546,7 +767,7 @@
             "🔥 You're building knowledge! Stay positive!"
         ];
 
-                function showTab(tabName) {
+        function showTab(tabName) {
             const tabContents = document.querySelectorAll('.tab-content');
             tabContents.forEach(content => content.classList.remove('active'));
 
@@ -575,7 +796,7 @@
             displayQuestion(appName);
         }
 
-                function displayQuestion(appName) {
+        function displayQuestion(appName) {
             const questions = currentQuestions[appName];
             const currentIndex = currentQuestionIndex[appName];
 
@@ -655,7 +876,7 @@
                         </button>
                     </div>
                 `;
-                        } else {
+            } else {
                 // Default single choice question
                 document.getElementById(appName).innerHTML = `
                     <div class="question-container">
@@ -676,7 +897,7 @@
             }
         }
 
-                function selectOption(appName, selectedIndex, selectedOption) {
+        function selectOption(appName, selectedIndex, selectedOption) {
             const questions = currentQuestions[appName];
             const currentIndex = currentQuestionIndex[appName];
             const question = questions[currentIndex];
@@ -686,7 +907,6 @@
 
             let isCorrect = false;
             options.forEach((option, index) => {
-                // Replace the option text with highlighted answer_options
                 if (question.answer_options && question.answer_options[index]) {
                     option.innerHTML = question.answer_options[index];
                 }
@@ -701,6 +921,30 @@
                 }
                 option.style.pointerEvents = 'none';
             });
+
+
+            if (question.answer_question) {
+                const questionElement = document.querySelector(`#${appName} .question`);
+                questionElement.innerHTML = question.answer_question;
+            }
+
+            if (question.answer_criteria) {
+                const headerCells = document.querySelectorAll(`#${appName} .matching-table th`);
+                headerCells.forEach((th, index) => {
+                    if (question.answer_criteria[index]) {
+                        th.innerHTML = question.answer_criteria[index];
+                    }
+                });
+            }
+
+            if (question.answer_options) {
+                const statementCells = document.querySelectorAll(`#${appName} .matching-table .statement-cell`);
+                statementCells.forEach((td, index) => {
+                    if (question.answer_options[index]) {
+                        td.innerHTML = question.answer_options[index];
+                    }
+                });
+            }
 
             const scoreChange = isCorrect ? 1 : -2;
             currentScore += scoreChange;
@@ -776,7 +1020,7 @@
                 }, 3000);
                 return; // Don't proceed with answer checking
             }
-            // Check if all correct answers are selected and no incorrect ones
+
             const isCorrect = question.correct.length === selectedOriginalIndices.length &&
                 question.correct.every(correctIndex => selectedOriginalIndices.includes(correctIndex));
                         // Update question with highlighted keywords
@@ -923,7 +1167,6 @@
                 return;
             }
 
-            // Check if all matches are correct
             const isCorrect = question.correct.length === userSelections.length &&
                              question.correct.every(correctMatch =>
                                  userSelections.some(userMatch =>
@@ -931,7 +1174,6 @@
                                  )
                              );
 
-            // Show correct answers with highlighted keywords
             const allCells = document.querySelectorAll(`#${appName} .matching-cell`);
             allCells.forEach(cell => {
                 const row = parseInt(cell.getAttribute('data-row'));
@@ -951,13 +1193,11 @@
                 cell.style.pointerEvents = 'none';
             });
 
-            // Update question with highlighted keywords
             if (question.answer_question) {
                 const questionElement = document.querySelector(`#${appName} .question`);
                 questionElement.innerHTML = question.answer_question;
             }
 
-            // Update table headers and rows with highlighted keywords
             if (question.answer_criteria) {
                 const headerCells = document.querySelectorAll(`#${appName} .matching-table th`);
                 headerCells.forEach((th, index) => {
