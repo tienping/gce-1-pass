@@ -422,7 +422,8 @@
         </div>
 
         <div class="tabs">
-            <button class="tab active" onclick="showTab('calendar')">📅 Calendar</button>
+            <button class="tab random-tab active" onclick="showTab('random')">🔀 Random</button>
+            <button class="tab" onclick="showTab('calendar')">📅 Calendar</button>
             <button class="tab" onclick="showTab('chrome')">🌐 Chrome</button>
             <button class="tab" onclick="showTab('classroom')">🎓 Classroom</button>
             <button class="tab" onclick="showTab('docs')">📄 Docs</button>
@@ -436,7 +437,6 @@
             <button class="tab" onclick="showTab('sites')">🌐 Sites</button>
             <button class="tab" onclick="showTab('slides')">📽️ Slides</button>
             <button class="tab" onclick="showTab('youtube')">📺 YouTube</button>
-            <button class="tab" onclick="showTab('random')">🔀 Random</button>
         </div>
 
         <div id="calendar" class="tab-content active"></div>
@@ -627,18 +627,18 @@
                         "Will display files owned by the specified email address",
                         "Will display files that specified email address owner owns or has permission to view, comment or edit"
                     ],
+                    answer_options: [
+                        "Will display the files that <span class=\"highlight-keyword\">you have shared with</span> the specific email address",
+                        "Will display files <span class=\"highlight-keyword\">shared with you</span> by the specified email address",
+                        "Will display files <span class=\"highlight-keyword\">owned by</span> the specified email address",
+                        "Will display files that specified email address <span class=\"highlight-keyword\">owner owns</span> or <span class=\"highlight-keyword\">has permission to view, comment or edit</span>"
+                    ],
                     criteria: [
                         "",
                         "To:",
                         "From:",
                         "Owner:",
                         "Shared with:"
-                    ],
-                    answer_options: [
-                        "Will display the files that <span class=\"highlight-keyword\">you have shared with</span> the specific email address",
-                        "Will display files <span class=\"highlight-keyword\">shared with you</span> by the specified email address",
-                        "Will display files <span class=\"highlight-keyword\">owned by</span> the specified email address",
-                        "Will display files that specified email address <span class=\"highlight-keyword\">owner owns</span> or <span class=\"highlight-keyword\">has permission to view, comment or edit</span>"
                     ],
                     answer_criteria: [
                         "",
@@ -1019,7 +1019,7 @@
                         <h2>🎉 Quiz Complete!</h2>
                         <p>You've completed the question.</p>
                         <p>Your current score: <strong>${currentScore}</strong></p>
-                        <button class="next-btn" onclick="${tryAgainOnclick}">Next Random Question</button>
+                        <button class="next-btn" onclick="${tryAgainOnclick}">Next Question</button>
                     </div>
                 `;
                 return;
@@ -1526,8 +1526,7 @@
             }
         }
 
-                window.onload = function() {
-            // Hide tabs that don't have questions
+        window.onload = function() {
             hideEmptyTabs();
 
             // Check for tab parameter in URL
@@ -1540,13 +1539,9 @@
                     tabButton.click();
                 }
             } else {
-                // Default to first available tab
-                const firstAvailableTab = getFirstAvailableTab();
-                if (firstAvailableTab) {
-                    const tabButton = document.querySelector(`.tab[onclick*="'${firstAvailableTab}'"]`);
-                    if (tabButton) {
-                        tabButton.click();
-                    }
+                const tabButton = document.querySelector(`.tab.random-tab`);
+                if (tabButton) {
+                    tabButton.click();
                 }
             }
         };
@@ -1559,19 +1554,6 @@
                     tabButton.style.display = 'none';
                 }
             });
-        }
-
-        function getFirstAvailableTab() {
-            const tabButtons = document.querySelectorAll('.tab');
-            for (let tabButton of tabButtons) {
-                if (tabButton.style.display !== 'none') {
-                    const tabName = tabButton.getAttribute('onclick').match(/showTab\('([^']+)'\)/)[1];
-                    if (quizData[tabName] && quizData[tabName].length > 0) {
-                        return tabName;
-                    }
-                }
-            }
-            return null;
         }
 
     </script>
