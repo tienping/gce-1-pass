@@ -436,6 +436,7 @@
             <button class="tab" onclick="showTab('sites')">🌐 Sites</button>
             <button class="tab" onclick="showTab('slides')">📽️ Slides</button>
             <button class="tab" onclick="showTab('youtube')">📺 YouTube</button>
+            <button class="tab" onclick="showTab('random')">🔀 Random</button>
         </div>
 
         <div id="calendar" class="tab-content active"></div>
@@ -452,6 +453,7 @@
         <div id="sites" class="tab-content"></div>
         <div id="slides" class="tab-content"></div>
         <div id="youtube" class="tab-content"></div>
+        <div id="random" class="tab-content"></div>
     </div>
 
     <div id="historyModal" class="history-modal">
@@ -962,10 +964,26 @@
             url.searchParams.set('tab', tabName);
             window.history.pushState({}, '', url);
 
-            loadQuestions(tabName);
+            if (tabName === 'random') {
+                loadRandomQuestion();
+            } else {
+                loadQuestions(tabName);
+            }
+        }
+
+        function loadRandomQuestion() {
+            const allCategories = Object.keys(quizData);
+            const randomCategory = allCategories[Math.floor(Math.random() * allCategories.length)];
+            const questions = quizData[randomCategory];
+            const randomQuestion = questions[Math.floor(Math.random() * questions.length)];
+
+            currentQuestions['random'] = [randomQuestion];
+            currentQuestionIndex['random'] = 0;
+            displayQuestion('random');
         }
 
         function loadQuestions(appName) {
+            if (appName === 'random') return;
             const questions = quizData[appName];
             if (!questions) return;
 
@@ -976,17 +994,32 @@
             displayQuestion(appName);
         }
 
+        function loadRandomQuestion() {
+            const allCategories = Object.keys(quizData);
+            const randomCategory = allCategories[Math.floor(Math.random() * allCategories.length)];
+            const questions = quizData[randomCategory];
+            const randomQuestion = questions[Math.floor(Math.random() * questions.length)];
+
+            currentQuestions['random'] = [randomQuestion];
+            currentQuestionIndex['random'] = 0;
+            displayQuestion('random');
+        }
+
         function displayQuestion(appName) {
             const questions = currentQuestions[appName];
             const currentIndex = currentQuestionIndex[appName];
 
             if (!questions || currentIndex >= questions.length) {
+                let tryAgainOnclick = `loadQuestions('${appName}')`;
+                if (appName === 'random') {
+                    tryAgainOnclick = `loadRandomQuestion()`
+                }
                 document.getElementById(appName).innerHTML = `
                     <div class="question-container">
                         <h2>🎉 Quiz Complete!</h2>
-                        <p>You've completed all questions for ${appName.charAt(0).toUpperCase() + appName.slice(1)}.</p>
+                        <p>You've completed the question.</p>
                         <p>Your current score: <strong>${currentScore}</strong></p>
-                        <button class="next-btn" onclick="loadQuestions('${appName}')">Try Again</button>
+                        <button class="next-btn" onclick="${tryAgainOnclick}">Next Random Question</button>
                     </div>
                 `;
                 return;
@@ -1442,8 +1475,12 @@
         }
 
         function nextQuestion(appName) {
-            currentQuestionIndex[appName]++;
-            displayQuestion(appName);
+            if (appName === 'random') {
+                loadRandomQuestion();
+            } else {
+                currentQuestionIndex[appName]++;
+                displayQuestion(appName);
+            }
         }
 
         function retryQuestion(appName) {
@@ -1498,13 +1535,18 @@
             const tabParam = urlParams.get('tab');
 
             if (tabParam) {
-                // Show the tab from URL parameter
-                showTabFromParam(tabParam);
+                const tabButton = document.querySelector(`.tab[onclick*="'${tabParam}'"]`);
+                if (tabButton) {
+                    tabButton.click();
+                }
             } else {
                 // Default to first available tab
                 const firstAvailableTab = getFirstAvailableTab();
                 if (firstAvailableTab) {
-                    showTabFromParam(firstAvailableTab);
+                    const tabButton = document.querySelector(`.tab[onclick*="'${firstAvailableTab}'"]`);
+                    if (tabButton) {
+                        tabButton.click();
+                    }
                 }
             }
         };
@@ -1513,7 +1555,7 @@
             const tabButtons = document.querySelectorAll('.tab');
             tabButtons.forEach(tabButton => {
                 const tabName = tabButton.getAttribute('onclick').match(/showTab\('([^']+)'\)/)[1];
-                if (!quizData[tabName] || quizData[tabName].length === 0) {
+                if (tabName !== 'random' && (!quizData[tabName] || quizData[tabName].length === 0)) {
                     tabButton.style.display = 'none';
                 }
             });
@@ -1532,22 +1574,6 @@
             return null;
         }
 
-        function showTabFromParam(tabName) {
-            const tabContents = document.querySelectorAll('.tab-content');
-            tabContents.forEach(content => content.classList.remove('active'));
-
-            const tabs = document.querySelectorAll('.tab');
-            tabs.forEach(tab => tab.classList.remove('active'));
-
-            // Find and activate the correct tab button
-            const targetTab = document.querySelector(`.tab[onclick*="${tabName}"]`);
-            if (targetTab) {
-                targetTab.classList.add('active');
-            }
-
-            document.getElementById(tabName).classList.add('active');
-            loadQuestions(tabName);
-        }
     </script>
 </body>
 </html>
