@@ -380,6 +380,11 @@
         }
 
         @media (max-width: 480px) {
+            body {
+                padding-left: 5px;
+                padding-right: 5px;
+            }
+
             .header h1 {
                 font-size: 1.8em;
             }
@@ -538,10 +543,10 @@
                     criteria: ["", "Has blue-info", "Has Document", "From: name@google.com", "Label: professional development"],
                     answer_criteria: ["", "<span class=\"highlight-keyword\">Has blue-info</span>", "<span class=\"highlight-keyword\">Has document</span>", "<span class=\"highlight-keyword\">From: name@google.com</span>", "<span class=\"highlight-keyword\">Label: professional development</span>"],
                     correct: [
-                        {row: 0, col: 3}, // Messages that have a Google Doc -> Has document
-                        {row: 1, col: 4}, // Specify the sender -> From: name@google.com
-                        {row: 2, col: 5}, // Messages that have a certain label -> Label: professional development
-                        {row: 3, col: 2}  // Messages that include an icon of a certain color -> Has blue-info
+                        {row: 0, col: 2}, // Messages that have a Google Doc -> Has document
+                        {row: 1, col: 3}, // Specify the sender -> From: name@google.com
+                        {row: 2, col: 4}, // Messages that have a certain label -> Label: professional development
+                        {row: 3, col: 1}  // Messages that include an icon of a certain color -> Has blue-info
                     ],
                     type: "matching"
                 },
