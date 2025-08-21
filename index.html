@@ -474,8 +474,20 @@
                 {
                     question: "Select 3 ways how you can create Google Calendar events.",
                     answer_question: "Select 3 ways how you can \"<span class=\"highlight-keyword\">create</span>\" Google Calendar events.",
-                    options: ["Click the create button", "Double click on the mini calendar", "Create an event from a Gmail message", "Click an empty time on your calendar", "Right click over an empty time on your calendar"],
-                    answer_options: ["Click the create button", "Double click on the mini calendar", "Create an event from a Gmail message", "Click an empty time on your calendar", "Right click over an empty time on your calendar"],
+                    options: [
+                        "Click the create button",
+                        "Double click on the mini calendar",
+                        "Create an event from a Gmail message",
+                        "Click an empty time on your calendar", 
+                        "Right click over an empty time on your calendar"
+                    ],
+                    answer_options: [
+                        `Click the <span class="highlight-keyword">create</span> button`,
+                        `Double click on the <span class="highlight-keyword">mini</span> calendar`,
+                        `Create an event from a <span class="highlight-keyword">Gmail</span> message`,
+                        `Click an <span class="highlight-keyword"empty time</span> on your calendar`,
+                        `<span class="highlight-keyword">Right click</span> over an empty time on your calendar`
+                    ],
                     correct: [0, 2, 3],
                     type: "checkbox"
                 },
@@ -792,6 +804,123 @@
                     ],
                     correct: 0,
                     type: "single"
+                },
+            ],
+            classroom: [
+                {
+                    question: "Teacher can customize Google Classroom assignments and posts using rich text formatting including bold, italics, underline, and bullets.",
+                    answer_question: "Teacher can <span class=\"highlight-keyword\">customize</span> Google Classroom assignments and posts <span class=\"highlight-keyword\">using rich text formatting</span> including bold, italics, underline, and bullets.",
+                    options: [
+                        "True",
+                        "False"
+                    ],
+                    correct: 0,
+                    type: "single"
+                },
+                {
+                    question: "Students already familiar with a web-connected world will feel immediately at home with Google Classroom. What benefits will they enjoy from their assignments going online? (Select 3)",
+                    answer_question: "Students already familiar with a web-connected world will feel immediately at home with Google Classroom. What <span class=\"highlight-keyword\">benefits</span> will they enjoy from their assignments going online? (Select 3)",
+                    options: [
+                        "If students are sick from school they can cancel pending assignments from home using the cancel button",
+                        "Assignments and resources are kept organized in one place",
+                        "Students can choose to have assignment results sent direct to their phone as a text message",
+                        "Students can discuss assignments in a collaborative environment",
+                        "Students can view each other’s assignments if they need ideas",
+                        "Students can see at a glance when assignments are due"
+                    ],
+                    answer_options: [
+                        "If students are sick from school they can cancel pending assignments from home using the cancel button",
+                        "Assignments and resources are <span class=\"highlight-keyword\">kept organized in one place</span>",
+                        "Students can choose to have assignment results sent direct to their phone as a text message",
+                        "Students can discuss assignments in a <span class=\"highlight-keyword\">collaborative environment</span>",
+                        "Students can view each other’s assignments if they need ideas",
+                        "Students can <span class=\"highlight-keyword\">see at a glance when assignments are due</span>"
+                    ],
+                    correct: [1, 3, 5],
+                    type: "checkbox"
+                },
+                {
+                    question: "Teacher can connect with student virtually using Google Meet. Select all the ways a student can join a video meeting in Google Classroom. (Select 3)",
+                    answer_question: "Teacher can connect with student virtually using Google Meet. Select all the ways a student can <span class=\"highlight-keyword\">join a video meeting</span> in Google Classroom. (Select 3)",
+                    options: [
+                        "On the Stream page, at the top, click the Meet link",
+                        "On an announcement or post, click the link for the class video meeting.",
+                        "On the Classwork page, at the top, click Meet",
+                        "On the Gmail app, select Meet, then click 'New Meeting'"
+                    ],
+                    answer_options: [
+                        "On the <span class=\"highlight-keyword\">Stream page</span>, at the top, click the <span class=\"highlight-keyword\">Meet link</span>",
+                        "On an <span class=\"highlight-keyword\">announcement or post</span>, click the <span class=\"highlight-keyword\">link for the class video meeting</span>.",
+                        "On the <span class=\"highlight-keyword\">Classwork page</span>, at the top, click <span class=\"highlight-keyword\">Meet</span>",
+                        "On the Gmail app, select Meet, then click 'New Meeting'"
+                    ],
+                    correct: [0, 1, 2],
+                    type: "checkbox"
+                },
+                {
+                    question: "When creating a Google Classroom assignment, what options do you have? (Select 4)",
+                    answer_question: "When creating a <span class=\"highlight-keyword\">Google Classroom assignment</span>, what <span class=\"highlight-keyword\">options</span> do you have? (Select 4)",
+                    options: [
+                        "Post to additional classes",
+                        "Add attachments",
+                        "Add a YouTube video",
+                        "Create a poll",
+                        "Add a due date or time"
+                    ],
+                    answer_options: [
+                        "<span class=\"highlight-keyword\">Post to additional classes</span>",
+                        "<span class=\"highlight-keyword\">Add attachments</span>",
+                        "<span class=\"highlight-keyword\">Add a YouTube video</span>",
+                        "Create a poll",
+                        "<span class=\"highlight-keyword\">Add a due date or time</span>"
+                    ],
+                    correct: [0, 1, 2, 4],
+                    type: "checkbox"
+                },
+                {
+                    question: "Teachers can share link to invite students to their Google Classroom class, which makes joining a class much easier.",
+                    answer_question: "Teachers can <span class=\"highlight-keyword\">share link to invite students</span> to their Google Classroom class, which makes <span class=\"highlight-keyword\">joining a class much easier</span>.",
+                    options: [
+                        "True",
+                        "False"
+                    ],
+                    correct: 0,
+                    type: "single"
+                },
+                {
+                    question: "You'd like to customize your Google Classroom class banner by uploading your own image. Select to respond with the steps for customizing your Google Classroom banner",
+                    answer_question: "You'd like to <span class=\"highlight-keyword\">customize</span> your Google Classroom class banner by uploading your own image. Select to respond with the <span class=\"highlight-keyword\">steps</span> for <span class=\"highlight-keyword\">customizing</span> your Google Classroom <span class=\"highlight-keyword\">banner</span>",
+                    options: [
+                        "STEP 1",
+                        "STEP 2",
+                        "STEP 3",
+                        "STEP 4",
+                        "STEP 5",
+                    ],
+                    criteria: [
+                        "",
+                        "Select photo from your computer",
+                        "Click the 'upload photo' button",
+                        "Click the button 'Select Class Theme'",
+                        "Crop the image as needed",
+                        "Select the Class you want to add the banner to"
+                    ],
+                    answer_criteria: [
+                        "",
+                        `<span class="highlight-keyword">Select photo</span> from your computer`,
+                        `Click the <span class="highlight-keyword">'upload photo'</span> button`,
+                        `Click the button <span class="highlight-keyword">'Select Class Theme'</span>`,
+                        `<span class="highlight-keyword">Crop</span> the image as needed`,
+                        `<span class="highlight-keyword">Select the Class</span> you want to add the banner to`
+                    ],
+                    correct: [
+                        {row: 0, col: 5},
+                        {row: 1, col: 2},
+                        {row: 2, col: 1},
+                        {row: 3, col: 4},
+                        {row: 4, col: 3}
+                    ],
+                    type: "matching",
                 },
             ],
         };
